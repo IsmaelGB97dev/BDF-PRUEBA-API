@@ -93,5 +93,180 @@ namespace DataAccess
             return res;
         }
         #endregion
+
+
+
+        #region Insertar Direccion
+        public static Respuesta InsertarDireccion(DireccionModel _direccion)
+        {
+            SqlConnection conn = new SqlConnection(cadenaDB);
+            Respuesta res = new Respuesta();
+            DireccionModel direccion = new DireccionModel();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("[spInsertarDireccion]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@_descripcion", SqlDbType.VarChar).Value = _direccion.descripcion;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (!reader.GetBoolean(0))                      // Validar exito
+                    {
+                        res.SetAdvertencia(reader.GetString(1));    // Obtener mensaje
+                        if (reader.GetString(2) != "")              // Validar si existe mensaje de error
+                            res.SetError(reader.GetString(2), "spInsertarDireccion-DA");
+                    }
+                    else
+                    {
+                        direccion.idDireccion = reader.GetInt32(1);
+                        direccion.descripcion = reader.GetString(2);
+                        res.dato = direccion;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.ToString(), "InsertarDireccion-AD");
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
+        #endregion
+
+
+        #region Insertar Tipo Identificacion
+        public static Respuesta InsertarTipoIdentificacion(TipoIdentificacionModel _tipoIdentificacion)
+        {
+            SqlConnection conn = new SqlConnection(cadenaDB);
+            Respuesta res = new Respuesta();
+            TipoIdentificacionModel tipoIdentificacion = new TipoIdentificacionModel();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("[spInsertarTipoIdentificacion]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@_nombre", SqlDbType.VarChar).Value = _tipoIdentificacion.nombre;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (!reader.GetBoolean(0))                      // Validar exito
+                    {
+                        res.SetAdvertencia(reader.GetString(1));    // Obtener mensaje
+                        if (reader.GetString(2) != "")              // Validar si existe mensaje de error
+                            res.SetError(reader.GetString(2), "spInsertarTipoIdentificacion-DA");
+                    }
+                    else
+                    {
+                        tipoIdentificacion.idTipoIdentificacion = reader.GetInt32(1);
+                        tipoIdentificacion.nombre = reader.GetString(2);
+                        res.dato = tipoIdentificacion;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.ToString(), "InsertarTipoIdentificacion-AD");
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
+        #endregion
+
+        #region Insertar Tipo prestamo
+        public static Respuesta InsertarTipoPrestamo(TipoPrestamoModel _tipoPrestamo)
+        {
+            SqlConnection conn = new SqlConnection(cadenaDB);
+            Respuesta res = new Respuesta();
+            TipoPrestamoModel tipoPrestamo = new TipoPrestamoModel();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("[spInsertarTipoPrestamo]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@_nombre", SqlDbType.VarChar).Value = _tipoPrestamo.nombre;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (!reader.GetBoolean(0))                      // Validar exito
+                    {
+                        res.SetAdvertencia(reader.GetString(1));    // Obtener mensaje
+                        if (reader.GetString(2) != "")              // Validar si existe mensaje de error
+                            res.SetError(reader.GetString(2), "spInsertarTipoPrestamo-DA");
+                    }
+                    else
+                    {
+                        tipoPrestamo.idTipoPrestamo = reader.GetInt32(1);
+                        tipoPrestamo.nombre = reader.GetString(2);
+                        res.dato = tipoPrestamo;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.ToString(), "InsertarTipoPrestamo-AD");
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
+        #endregion
+
+        #region Insertar Moneda
+        public static Respuesta InsertarMoneda(MonedaModel _moneda)
+        {
+            SqlConnection conn = new SqlConnection(cadenaDB);
+            Respuesta res = new Respuesta();
+            MonedaModel moneda = new MonedaModel();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("[spInsertarMoneda]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@_nombre", SqlDbType.VarChar).Value = _moneda.nombre;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (!reader.GetBoolean(0))                      // Validar exito
+                    {
+                        res.SetAdvertencia(reader.GetString(1));    // Obtener mensaje
+                        if (reader.GetString(2) != "")              // Validar si existe mensaje de error
+                            res.SetError(reader.GetString(2), "spInsertarMoneda-DA");
+                    }
+                    else
+                    {
+                        moneda.idMoneda = reader.GetInt32(1);
+                        moneda.nombre = reader.GetString(2);
+                        res.dato = moneda;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.ToString(), "InsertarMoneda-AD");
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
+        #endregion
     }
 }

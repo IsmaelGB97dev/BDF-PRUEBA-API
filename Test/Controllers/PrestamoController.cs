@@ -15,12 +15,12 @@ namespace Test.Controllers
     {
         [HttpGet]
         [Route("obtenerPrestamos")]
-        public IHttpActionResult ObtenerPrestamos(int idCliente = 0)
+        public IHttpActionResult ObtenerPrestamos(int idCliente = 0, int idPrestamo = 0)
         {
             Respuesta res = new Respuesta();
             try
             {
-                res = PrestamoLN.ObtenerPrestamos(idCliente);
+                res = PrestamoLN.ObtenerPrestamos(idCliente, idPrestamo);
                 if (!res.exito)
                     res.SetAdvertencia("Error al intentar obtener los datos");
                 return Ok(res);
@@ -47,6 +47,26 @@ namespace Test.Controllers
             catch (Exception ex)
             {
                 res.SetError(ex.ToString(), "InsertarPrestamo-controller");
+                return Content(HttpStatusCode.InternalServerError, res);
+            }
+        }
+
+
+        [HttpPut]
+        [Route("actualizarPrestamo")]
+        public IHttpActionResult ActualizarPrestamo(PrestamoModel prestamo)
+        {
+            Respuesta res = new Respuesta();
+            try
+            {
+                res = PrestamoLN.ActualizarPrestamo(prestamo);
+                if (!res.exito)
+                    res.SetAdvertencia("Error al intentar actualizar el prestamo");
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.ToString(), "ActualizarPrestamo-controller");
                 return Content(HttpStatusCode.InternalServerError, res);
             }
         }

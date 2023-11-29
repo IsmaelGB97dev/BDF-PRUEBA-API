@@ -18,17 +18,20 @@ namespace LogicaNegocio
             try
             {
                 // Validaciones
-                if(cliente == null)
+                if (cliente == null)
                     res.SetAdvertencia("Indicar los datos del cliente");
                 else
                 {
-                    if(string.IsNullOrEmpty(cliente.numeroIdentificacion) || 
+                    if (string.IsNullOrEmpty(cliente.numeroIdentificacion) ||
                         string.IsNullOrEmpty(cliente.primerNombre) ||
                         string.IsNullOrEmpty(cliente.primerApellido))
                     {
                         res.SetAdvertencia("Indicar todos los campos requeridos");
                     }
-                    res = ClienteDA.InsertarCliente(cliente);
+                    else
+                    {
+                        res = ClienteDA.InsertarCliente(cliente);
+                    }
                 }
 
             }
@@ -74,7 +77,10 @@ namespace LogicaNegocio
                     {
                         res.SetAdvertencia("Indicar todos los campos requeridos");
                     }
-                    res = ClienteDA.ActualizarCliente(cliente);
+                    else
+                    {
+                        res = ClienteDA.ActualizarCliente(cliente);
+                    }
                 }
 
             }

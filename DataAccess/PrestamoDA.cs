@@ -16,7 +16,7 @@ namespace DataAccess
         private static readonly string cadenaDB = DA.GetConexionDB();
 
         #region Obtener Prestamo(s)
-        public static Respuesta ObtenerPrestamos(int idCliente)
+        public static Respuesta ObtenerPrestamos(int idCliente, int idPrestamo)
         {
             SqlConnection conn = new SqlConnection(cadenaDB);
             Respuesta res = new Respuesta();
@@ -27,6 +27,7 @@ namespace DataAccess
                 SqlCommand cmd = new SqlCommand("spObtenerPrestamos", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@_idCliente", SqlDbType.Int).Value = idCliente;
+                cmd.Parameters.Add("@_idPrestamo", SqlDbType.Int).Value = idPrestamo;
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -90,6 +91,7 @@ namespace DataAccess
                 cmd.Parameters.Add("@_idMoneda", SqlDbType.Int).Value = _prestamo.moneda.idMoneda;
                 cmd.Parameters.Add("@_montoAprobado", SqlDbType.Decimal).Value = _prestamo.montoAprobado;
                 cmd.Parameters.Add("@_plazoFinanciamiento", SqlDbType.Int).Value = _prestamo.plazoFinanciamiento;
+                cmd.Parameters.Add("@_estado", SqlDbType.Bit).Value = _prestamo.estado;
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -124,6 +126,71 @@ namespace DataAccess
             catch (Exception ex)
             {
                 res.SetError(ex.ToString(), "InsertarPrestamo-AD");
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return res;
+        }
+        #endregion
+
+
+        #region Insertar Cliente
+        public static Respuesta ActualizarPrestamo(PrestamoModel _prestamo)
+        {
+            SqlConnection conn = new SqlConnection(cadenaDB);
+            Respuesta res = new Respuesta();
+            PrestamoModel prestamo = new PrestamoModel();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("[spActualizarPrestamo]", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@_numeroPrestamo", SqlDbType.Int).Value = _prestamo.numeroPrestamo;
+                cmd.Parameters.Add("@_idTipoPrestamo", SqlDbType.Int).Value = _prestamo.tipoPrestamo.idTipoPrestamo;
+                cmd.Parameters.Add("@_idCliente", SqlDbType.Int).Value = _prestamo.cliente.idCliente;
+                cmd.Parameters.Add("@_fechaInicio", SqlDbType.DateTime).Value = _prestamo.fechaInicio;
+                cmd.Parameters.Add("@_fechaFin", SqlDbType.DateTime).Value = _prestamo.fechaFin;
+                cmd.Parameters.Add("@_montoSolicitado", SqlDbType.Decimal).Value = _prestamo.montoSolicitado;
+                cmd.Parameters.Add("@_idMoneda", SqlDbType.Int).Value = _prestamo.moneda.idMoneda;
+                cmd.Parameters.Add("@_montoAprobado", SqlDbType.Decimal).Value = _prestamo.montoAprobado;
+                cmd.Parameters.Add("@_plazoFinanciamiento", SqlDbType.Int).Value = _prestamo.plazoFinanciamiento;
+                cmd.Parameters.Add("@_estado", SqlDbType.Bit).Value = _prestamo.estado;
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    if (!reader.GetBoolean(0))                      // Validar exito
+                    {
+                        res.SetAdvertencia(reader.GetString(1));    // Obtener mensaje
+                        if (reader.GetString(2) != "")              // Validar si existe mensaje de error
+                            res.SetError(reader.GetString(2), "ActualizarPrestamo-DA");
+                    }
+                    else
+                    {
+                        prestamo.numeroPrestamo = reader.GetInt32(1);
+                        prestamo.tipoPrestamo = new TipoPrestamoModel();
+                        prestamo.tipoPrestamo.idTipoPrestamo = reader.GetInt32(2);
+                        prestamo.cliente = new ClienteModel();
+                        prestamo.cliente.idCliente = reader.GetInt32(3);
+                        prestamo.fechaInicio = reader.GetDateTime(4);
+                        prestamo.fechaFin = reader.GetDateTime(5);
+                        prestamo.montoSolicitado = reader.GetDecimal(6);
+                        prestamo.moneda = new MonedaModel();
+                        prestamo.moneda.idMoneda = reader.GetInt32(7);
+                        prestamo.montoAprobado = reader.GetDecimal(8);
+                        prestamo.plazoFinanciamiento = reader.GetInt32(9);
+                        prestamo.estado = reader.GetBoolean(10);
+
+                        res.dato = prestamo;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                res.SetError(ex.ToString(), "ActualizarPrestamo-AD");
             }
             finally
             {

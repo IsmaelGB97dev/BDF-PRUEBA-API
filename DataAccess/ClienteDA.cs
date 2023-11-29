@@ -32,6 +32,8 @@ namespace DataAccess
                 cmd.Parameters.Add("@_primerApellido", SqlDbType.VarChar).Value = _cliente.primerApellido;
                 cmd.Parameters.Add("@_segundoApellido", SqlDbType.VarChar).Value = _cliente.segundoApellido;
                 cmd.Parameters.Add("@_idDireccion", SqlDbType.Int).Value = _cliente.direccion.idDireccion;
+                cmd.Parameters.Add("@_estado", SqlDbType.Int).Value = _cliente.estado;
+
                 conn.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
