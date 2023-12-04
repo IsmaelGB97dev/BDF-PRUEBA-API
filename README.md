@@ -17,8 +17,9 @@ La solución cuenta con las siguientes capas, las cuales fueron creadas como dis
 **Nota:** En el archivo WebConfig debemos de definir la cadena de conexión, según el Server (Data Source) y el nombre de la base de datos (Initial Catalog).
 
 ### Demo: 
-[Con Swagger (Http)](http://http://www.testapiismael.somee.com/swagger/ui/index "Con Swagger (Http)")
-[Sin Swagger (Https)](http://https://www.testapiismael.somee.com/Help "Sin Swagger (Https)")
+- [Con Swagger (Http)](http://www.testapiismael.somee.com/swagger/ui/index "Con Swagger (Http)")
+
+- [Sin Swagger (Https)](http://www.testapiismael.somee.com/Help "Sin Swagger (Https)")
 
 
 
