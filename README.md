@@ -6,7 +6,7 @@ La solución cuenta con las siguientes capas, las cuales fueron creadas como dis
 #### Capas en la solución
 - **DataAccess**: Esta capa contiene una clase llamada DA la cual posee un metodo, el cual retorna la cadena de conexion definida en el WebConfig, también tiene las diversas clases categorizadas según las entidades con las que se interactuara con la base de datos (Cliente, Catalogos, Prestamos, etc), en estas clases unicamente se realiza la comunicación directa con la Base de Datos, mediante ADO.NET.
 
-- **LogicaNegocio**: Esta capa contiene las clases igualmente categorizadas que en la capa de accesos a datos, está capa es la intermediaria entre el cliente y los datos, en ella validamos y aplicamos las diversas reglas de negocio
+- **LogicaNegocio**: Esta capa contiene las clases igualmente categorizadas que en la capa de accesos a datos, está capa es la intermediaria entre el cliente y los datos, en ella validamos y aplicamos las diversas reglas de negocio.
 
 - **Models**: Es la capa que posee todas las clases que representan las diversa entidades, con sus respectivas propiedades, esto para poder encapsular las diversas respuestas o solicitud de datos.
 
@@ -15,6 +15,10 @@ La solución cuenta con las siguientes capas, las cuales fueron creadas como dis
 - **Test**: Este es el proyecto Web ASP.NET, con plantilla de API Rest, para una mejor documentación y referencia de la API y sus EndPoints se agrega la libreria SWAGGER y se configura la ruta inicial del proyecto, ejemplo(https://localhost:1200/swagger).
 
 **Nota:** En el archivo WebConfig debemos de definir la cadena de conexión, según el Server (Data Source) y el nombre de la base de datos (Initial Catalog).
+
+### Demo: 
+[Con Swagger (Http)](http://http://www.testapiismael.somee.com/swagger/ui/index "Con Swagger (Http)")
+[Sin Swagger (Https)](http://https://www.testapiismael.somee.com/Help "Sin Swagger (Https)")
 
 
 
